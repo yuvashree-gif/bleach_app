@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post List</title>
+</head>
+<body>
+    <h1>Posts</h1>
+    <a href="{% url 'post_create' %}">Create New Post</a>
+    <div>
+        {% for post in posts %}
+            <div>
+                <img src="{{ post.image.url }}" alt="Post Image" style="max-width: 300px;">
+                <p>Posted by: {{ post.user.username }}</p>
+                <p>Reactions:</p>
+                <form method="POST" action="{% url 'react_to_post' post.id %}">
+                    {% csrf_token %}
+                    <select name="reaction_type">
+                        <option value="like">Like</option>
+                        <option value="love">Love</option>
+                        <option value="laugh">Laugh</option>
+                        <option value="sad">Sad</option>
+                        <option value="angry">Angry</option>
+                    </select>
+                    <button type="submit">React</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
